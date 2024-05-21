@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Student from './compnents/Student'
 import Form from './compnents/Form'
+import Ref from './compnents/Ref'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
       <div>
+        <Ref/>
         {/* <Student getSex={getSex} age={10} name={'nguyen van a'} count={count}>jfgvvfhvf</Student> */}
       <Form/>
       </div>
