@@ -1,0 +1,58 @@
+import { ACT_ADD, ACT_DELETE, ACT_EDIT, ACT_UPDATE } from "../constant";
+
+
+const initState = {
+    data: [
+        { id: 1, name: "HUỳnh Công Tính 1", imgUrl: "https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-anh-avatar-sadboiz.jpg", sex: true, birthday: "1998-06-19", address: "LA" },
+        { id: 2, name: "HUỳnh Công Tính 2", imgUrl: "https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-anh-avatar-sadboiz.jpg", sex: true, birthday: "1998-06-19", address: "LA" },
+    ],
+    idEdit: null
+}
+
+const productReducer = (state = initState, action) => { // tham số măc định
+    switch (action.type) {
+        case ACT_ADD:
+            // thêm mới 
+            // id tự tăng
+            let newId = getNewId(state.data);
+            // tạo ra product
+            let newProduct = { ...action.payload, id: newId }
+            state.data = [...state.data, newProduct] // spread operator
+            return { ...state };
+
+        case ACT_DELETE:
+            let idDel = action.payload;
+            console.log("iddel", idDel);
+            // lọc danh sách sp loại trừ id cần xóa
+            state.data = state.data.filter(pro => pro.id !== idDel);
+            return { ...state };
+        case ACT_UPDATE:
+            console.log(action.payload);
+            // lấy ra id cần sửa
+            state.data = state.data.map(pro=>{
+                if(pro.id===action.payload.id){
+                    return action.payload
+                }
+                return pro;
+            })
+            return { ...state };
+        case ACT_EDIT:
+            state.idEdit = action.payload;
+            return { ...state };
+        default:
+            return state;
+
+    }
+}
+
+const getNewId = (products) => {
+    let idMax = 0;
+    products.forEach(pro => {
+        if (pro.id > idMax) {
+            idMax = pro.id;
+        }
+    });
+    return idMax + 1;
+}
+
+export default productReducer;
